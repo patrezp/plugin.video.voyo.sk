@@ -1,4 +1,4 @@
-<addon id="plugin.video.voyo.cz" name="VOYO" provider-name="rstefko" version="0.1.3">
+<addon id="plugin.video.voyo.sk" name="VOYO" provider-name="patr ezp" version="0.1.3">
     <requires>
         <import addon="xbmc.python" version="2.26.0" />
         <import addon="script.module.requests" version="2.22.0" />
@@ -15,7 +15,7 @@
         <description lang="en_GB">Doplněk pro přehrávání seriálů, filmů a pořadů TV Nova na online televizi VOYO.</description>
         <description lang="cs_CZ">Doplněk pro přehrávání seriálů, filmů a pořadů TV Nova na online televizi VOYO.</description>
         <platform>all</platform>
-        <source>https://github.com/rstefko/plugin.video.voyo.cz</source>
+        <source>https://github.com/patrezp/plugin.video.voyo.sk</source>
         <news>Přepsáno pro Kodi 18.9</news>
         <assets>
             <icon>resources/icon.png</icon>

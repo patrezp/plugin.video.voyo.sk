@@ -17,12 +17,12 @@ _profile = xbmc.translatePath( _addon.getAddonInfo('profile'))
 _userAgent = xbmc.getUserAgent()
 plugin = routing.Plugin()
 
-_baseurl = 'https://voyo.nova.cz/'
+_baseurl = 'https://voyo.markiza.sk/'
 
 @plugin.route('/list_shows/<type>')
 def list_shows(type):
     xbmcplugin.setContent(plugin.handle, 'tvshows')
-    soup = get_page(_baseurl+'porady/zanry/'+type)
+    soup = get_page(_baseurl+'serialy/zanre/'+type)
     listing = []
     articles = soup.find_all('div', {'class': 'c-video-box'})
     for article in articles:
@@ -37,7 +37,7 @@ def list_shows(type):
 @plugin.route('/list_shows_types/<type>')
 def list_shows_types(type):
     listing = []
-    serials = {'39-akcni': 'Akční', '8-dokumentarni': 'Dokumentární', '35-drama': 'Drama', '12-hudebni': 'Hudební',
+    serials = {'3-akcny': 'Akčný', '210-ceske-a-slovenske': 'České a slovenské', '25-dobrodruzny':'Dobrodružný', '208-dokumentarny': 'Dokumentární', '35-drama': 'Drama', '12-hudebni': 'Hudební',
         '10-komedialni': 'Komediální', '16-kriminalni': 'Kriminální', '11-kulinarsky': 'Kulinářský', '5-magazin': 'Magazín',
         '1-nova-plus-originals': 'Nova Plus Originals', '7-publicisticky': 'Publicistický', '30-reality-show': 'Reality Show',
         '2-rodinny': 'Rodinný', '3-romanticky': 'Romantický', '54-soutez': 'Soutěž', '15-soutezni': 'Soutěžný',
@@ -52,7 +52,7 @@ def list_shows_types(type):
 @plugin.route('/list_movies/<type>')
 def list_movies(type):
     xbmcplugin.setContent(plugin.handle, 'tvshows')
-    soup = get_page(_baseurl+'filmy/zanry/'+type)
+    soup = get_page(_baseurl+'filmy/zanre/'+type)
     listing = []
     articles = soup.find_all('div', {'class': 'c-video-box'})
     for article in articles:
@@ -67,8 +67,8 @@ def list_movies(type):
 @plugin.route('/list_movies_types/<type>')
 def list_movies_types(type):
     listing = []
-    serials = {'39-akcni': 'Akční', '29-animovany': 'Animovaný', '44-ceske-filmy': 'České filmy', '28-detsky': 'Dětský',
-        '41-dobrodruzny': 'Dobrodružný', '8-dokumentarni': 'Dokumentární', '35-drama': 'Drama', '38-fantasy': 'Fantasy',
+    serials = {'3-akcny': 'Akčný', '29-animovany': 'Animovaný', '44-ceske-filmy': 'České filmy', '28-detsky': 'Dětský',
+        '41-dobrodruzny': 'Dobrodružný', '208-dokumentarny': 'Dokumentární', '35-drama': 'Drama', '38-fantasy': 'Fantasy',
         '50-film-o-filmu': 'Film o filmu', '27-historicky': 'Historický', '42-horor': 'Horor', '12-hudebni': 'Hudební',
         '10-komedialni': 'Komediální', '16-kriminalni': 'Kriminální', '52-mysteriozni': 'Mysteriózní', '21-pohadka': 'Pohádka',
         '53-psychologicky': 'Psychologický', '2-rodinny': 'Rodinný', '3-romanticky': 'Romantický', '36-sci-fi': 'Sci-fi',
@@ -84,7 +84,7 @@ def list_movies_types(type):
 @plugin.route('/list_serials/<type>')
 def list_serials(type):
     xbmcplugin.setContent(plugin.handle, 'tvshows')
-    soup = get_page(_baseurl+'serialy/zanry/'+type)
+    soup = get_page(_baseurl+'serialy/zanre/'+type)
     listing = []
     articles = soup.find_all('div', {'class': 'c-video-box'})
     for article in articles:
@@ -99,7 +99,7 @@ def list_serials(type):
 @plugin.route('/list_serials_types/<type>')
 def list_serials_types(type):
     listing = []
-    serials = {'39-akcni': 'Akční', '14-detektivni': 'Detektivní', '41-dobrodruzny': 'Dobrodružný', '35-drama': 'Drama',
+    serials = {'3-akcny': 'Akčný', '14-detektivni': 'Detektivní', '41-dobrodruzny': 'Dobrodružný', '35-drama': 'Drama',
         '27-historicky': 'Historický', '10-komedialni': 'Komediální', '16-kriminalni': 'Kriminální', '2-rodinny': 'Rodinný',
         '3-romanticky': 'Romantický', '37-thriller': 'Thriller', '13-zabavny': 'Zábavný'}
     for k, v in serials.items():
@@ -252,7 +252,7 @@ def get_session():
 	return s
 
 def test_auth(s):
-	r = s.get('https://crm.cms.nova.cz/api/v1/users/login-check', headers={'User-Agent': 'User-Agent: ' + _userAgent})
+	r = s.get('https://crm.cms.markiza.sk/api/v1/users/login-check', headers={'User-Agent': 'User-Agent: ' + _userAgent})
 	try:
 		if r.json()['data']['logged_in'] == True:
 			auth = 1
@@ -269,7 +269,7 @@ def make_login(s):
 		'password': password,
 		'_do': 'content186-loginForm-form-submit'
 	}
-	r = s.post('https://voyo.nova.cz/prihlaseni', headers={'User-Agent': 'User-Agent: ' + _userAgent}, data=data)
+	r = s.post('https://voyo.markiza.sk/prihlasenie', headers={'User-Agent': 'User-Agent: ' + _userAgent}, data=data)
 	with open(cookie_file, 'wb') as f:
 		pickle.dump(s.cookies, f)
 	return s
@@ -280,7 +280,7 @@ def performCredentialCheck():
 
 	if not username or not password:
 		registration_notice = xbmcgui.Dialog()
-		registration_notice.ok('VOYO účet', 'Pro přehrávání pořadů je potřeba účet s aktivním předplatným na voyo.nova.cz\n\nPokud účet ještě nemáte, zaregistrujte se na voyo.nova.cz, předplaťte účet na měsíc nebo rok a v dalším okně vyplňte přihlašovací údaje.')
+		registration_notice.ok('VOYO účet', 'Pro přehrávání pořadů je potřeba účet s aktivním předplatným na voyo.markiza.sk\n\nPokud účet ještě nemáte, zaregistrujte se na voyo.markiza.sk, předplaťte účet na měsíc nebo rok a v dalším okně vyplňte přihlašovací údaje.')
 
 		username_prompt = xbmcgui.Dialog()
 		usr = username_prompt.input('Uživatel (e-mail)')
