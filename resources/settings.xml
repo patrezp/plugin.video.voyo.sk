@@ -5,7 +5,7 @@
     </category>
 	<category label="Obecné">
 		<setting id="pagination" type="enum" label="Položek na stránku" values="25|50|100|150" default="0"/>
-		<setting label="Účet iPrima" type="lsep"/>
+		<setting label="Účet Voyo" type="lsep"/>
 		<setting id="username" type="text" label="E-mail" default=""/>
 		<setting id="password" type="text" label="Heslo" option="hidden" default=""/>
 
